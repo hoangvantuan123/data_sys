@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package sys.payroll.payroll_sys;
+
+
+service HrPayrollSysService {
+  rpc HrPayrollSysA (HrPayrollSysARequest) returns (Response);
+  rpc HrPayrollSysD (HrPayrollSysDRequest) returns (Response);
+  rpc HrPayrollSysQ (HrPayrollSysQRequest) returns (Response);
+}
+
+message HrPayrollSysAResult {
+  string pb_ym = 1;
+  int32 yy = 2;
+  int32 mm = 3;
+  int32 emp_seq = 4;
+  string emp_id = 5;
+  string emp_name = 6;
+  string dept_nm = 7;
+  string jp_nm = 8;
+  string pb_name = 9;
+  string pt_name_1 = 10;
+  string pt_name_2 = 11;
+  string pt_name_3 = 12;
+
+  float amt_1 = 13;
+  float amt_2 = 14;
+  float amt_3 = 15;
+  float amt_4 = 16;
+  float amt_5 = 17;
+  float amt_6 = 18;
+  float amt_7 = 19;
+  float amt_8 = 20;
+  float amt_9 = 21;
+  float amt_10 = 22;
+  float amt_11 = 23;
+  float amt_12 = 24;
+  float amt_13 = 25;
+  float amt_14 = 26;
+  float amt_15 = 27;
+  float amt_16 = 28;
+  float amt_17 = 29;
+  float amt_18 = 30;
+  float amt_19 = 31;
+  float amt_20 = 32;
+  float amt_21 = 33;
+  float amt_22 = 34;
+  float amt_23 = 35;
+  float amt_24 = 36;
+  float amt_25 = 37;
+  float amt_26 = 38;
+  float amt_27 = 39;
+  float amt_28 = 40;
+  float amt_29 = 41;
+  float amt_30 = 42;
+  float amt_31 = 43;
+  float amt_32 = 44;
+  float amt_33 = 45;
+  float amt_34 = 46;
+  float amt_35 = 47;
+  float amt_36 = 48;
+  float amt_37 = 49;
+  float amt_38 = 50;
+  float amt_39 = 51;
+  float amt_40 = 52;
+  float amt_41 = 53;
+  float amt_42 = 54;
+  float amt_43 = 55;
+  float amt_44 = 56;
+  float amt_45 = 57;
+  float amt_46 = 58;
+  float amt_47 = 59;
+  float amt_48 = 60;
+  float amt_49 = 61;
+  float amt_50 = 62;
+}
+
+message HrPayrollSysDResult { 
+  int32 id = 1;
+}
+
+message HrPayrollSysQResult { 
+  string KeyItem1 = 1;
+  string KeyItem2 = 2;
+  string KeyItem3 = 3;
+  string KeyItem4 = 4;
+}
+
+
+
+message HrPayrollSysARequest {
+  repeated HrPayrollSysAResult result = 1;  
+  map<string, string> metadata = 2;
+}
+
+message HrPayrollSysDRequest {
+  repeated  HrPayrollSysDResult result = 1;  
+  map<string, string> metadata = 2;
+}
+message HrPayrollSysQRequest {
+  HrPayrollSysQResult result = 1;  
+  map<string, string> metadata = 2;
+}
+
+
+message Response {
+  bool success = 1;  
+  string message = 2;      
+  string data = 3; 
+}

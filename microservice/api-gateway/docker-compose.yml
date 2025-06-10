@@ -1,0 +1,95 @@
+version: '3.8'
+services:
+  redis-auth:
+    image: redis:latest
+    container_name: redis-auth
+    ports:
+      - "6382:6382"
+    volumes:
+      - redis-auth-data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: 
+      - "redis-server"
+      - "--port"
+      - "6382"
+      - "--client-output-buffer-limit"
+      - "pubsub"
+      - "256mb"
+      - "64mb"
+      - "30"
+      - "--maxclients"
+      - "10000"
+    networks:
+      - redis-net
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 4G
+
+  redis-basic:
+    image: redis:latest
+    container_name: redis-basic
+    ports:
+      - "6380:6380"
+    volumes:
+      - redis-basic-data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: 
+      - "redis-server"
+      - "--port"
+      - "6380"
+      - "--client-output-buffer-limit"
+      - "pubsub"
+      - "256mb"
+      - "64mb"
+      - "30"
+      - "--maxclients"
+      - "10000"
+    networks:
+      - redis-net
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 4G
+
+  redis-produce:
+    image: redis:latest
+    container_name: redis-produce
+    ports:
+      - "6381:6381"
+    volumes:
+      - redis-produce-data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: 
+      - "redis-server"
+      - "--port"
+      - "6381"
+      - "--client-output-buffer-limit"
+      - "pubsub"
+      - "256mb"
+      - "64mb"
+      - "30"
+      - "--maxclients"
+      - "10000"
+    networks:
+      - redis-net
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 4G
+
+volumes:
+  redis-auth-data:
+  redis-basic-data:
+  redis-produce-data:
+
+
+networks:
+  redis-net:
+    driver: bridge

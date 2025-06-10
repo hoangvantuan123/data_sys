@@ -1,0 +1,4 @@
+HOST_REDIS_USER=localhost
+HOST_REDIS_BASIC=localhost
+HOST_REDIS_PRODUCE=localhost
+SQL_SERVER_HOST=localhost

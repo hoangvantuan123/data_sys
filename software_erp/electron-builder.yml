@@ -1,0 +1,55 @@
+appId: com.PlatX.app
+productName: Tiên Hưng ERP
+copyright: 'Copyright © 2024 PlatX Tuan Hoang'
+directories:
+  buildResources: build
+files:
+  - '!**/node_modules/.cache/**'
+  - '!**/node_modules/**/{test,__tests__,spec,docs,example,sample}/**'
+  - '!**/node_modules/**/{README.md,CHANGELOG.md,LICENSE,*.map,*.d.ts,*.md}'
+  - '!**/node_modules/**/node-gyp-bin/**'
+  - '!src/**'
+  - '!dist/**'
+  - '!build/**'
+asar: true
+
+asarUnpack:
+  - resources/**
+win:
+  executableName: Tiên Hưng ERP
+  requestedExecutionLevel: requireAdministrator
+  icon: build/icon.ico
+  
+nsis:
+  artifactName: ${name}-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: always
+mac:
+  category: public.app-category.utilities
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  extendInfo:
+    - NSCameraUsageDescription: Application requests access to the device's camera.
+    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
+    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
+    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
+  notarize: false
+  identity: 'Apple Development: tuanvhoang31@gmail.com' # Thêm danh tính ký của bạn ở đây
+dmg:
+  artifactName: ${name}-${version}.${ext}
+linux:
+  target:
+    - AppImage
+    - snap
+    - deb
+  maintainer: electronjs.org
+  category: Utility
+appImage:
+  artifactName: ${name}-${version}.${ext}
+npmRebuild: false
+publish:
+  provider: generic
+  url: https://PlatX.com/auto-updates
