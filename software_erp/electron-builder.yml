@@ -1,5 +1,5 @@
 appId: com.PlatX.app
-productName: Tiên Hưng ERP
+productName:  ERP
 copyright: 'Copyright © 2024 PlatX Tuan Hoang'
 directories:
   buildResources: build
@@ -16,7 +16,7 @@ asar: true
 asarUnpack:
   - resources/**
 win:
-  executableName: Tiên Hưng ERP
+  executableName:  ERP
   requestedExecutionLevel: requireAdministrator
   icon: build/icon.ico
   

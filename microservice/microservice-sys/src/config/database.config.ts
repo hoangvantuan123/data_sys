@@ -11,11 +11,11 @@ dotenv.config();
 
 export const sqlServerERP: TypeOrmModuleOptions = {
   type: 'postgres',
-  host: process.env.POSTGRES_HOST || 'localhost',
-  port: 5432,
+  host: process.env.POSTGRES_HOST || '10.10.10.10',
+  port: 5433,
   username: process.env.POSTGRES_USER || 'postgres',
-  password: process.env.POSTGRES_PASSWORD || 'AdminErp#',
-  database: process.env.POSTGRES_DB || 'sys',
+  password: process.env.POSTGRES_PASSWORD || 'admin',
+  database: process.env.POSTGRES_DB || 'ITMVHR',
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   synchronize: false,
   logging: true,

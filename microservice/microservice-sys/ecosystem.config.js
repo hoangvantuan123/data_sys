@@ -1,21 +1,14 @@
 module.exports = {
   apps: [{
-    name: 'microservice-basic',
+    name: 'syns-microservice-sync',
     script: 'dist/main.js',
-    instances: 1, // Giữ 1 instance để dễ debug (hoặc đổi thành 'max' nếu muốn scale)
-    exec_mode: 'fork', // Chạy ở chế độ fork (hoặc 'cluster' nếu muốn scale)
-    watch: false, // Không theo dõi file thay đổi để tránh restart liên tục
-    max_memory_restart: '1G', // Tự restart khi dùng quá 2GB RAM
-    restart_delay: 5000, // Đợi 5 giây trước khi restart
-    autorestart: true, // Luôn tự động restart nếu có lỗi
+    instances: 1,
+    exec_mode: 'fork',
+    watch: false,
+    autorestart: false,
+    max_memory_restart: '8192M',
     env: {
-      NODE_ENV: 'production',
-      HOST_REDIS_USER: '103.20.96.101',
-      HOST_REDIS_BASIC: '103.20.96.101',
-      HOST_REDIS_PRODUCE: '103.20.96.101'
+      HOST_GRPC_DATASYS: 'localhost:55550',
     },
-    error_file: './logs/error.log', // Ghi lỗi vào file log
-    out_file: './logs/output.log', // Ghi output ra file
-    log_date_format: 'YYYY-MM-DD HH:mm Z',
-  },],
+  }],
 };

@@ -41,14 +41,15 @@ import { generateEmptyData } from '../../components/sheet/js/generateEmptyData'
 import PayRollSyncATable from '../../components/cell/payroll/payRollSyncA'
 import { togglePageInteraction } from '../../utils/togglePageInteraction'
 import { HrPayrollSysA } from '../../../features/sys/payroll/HrPayrollSysA'
+import { HrPayrollSysQ } from '../../../features/sys/payroll/HrPayrollSysQ'
 import { filterValidRows } from '../../utils/filterUorA'
-export default function HomePage({ permissions, isMobile, canCreate, canEdit, canDelete, controllers,
-    cancelAllRequests }) {
+export default function HomePage({  }) {
     const loadingBarRef = useRef(null);
     const userFrom = JSON.parse(localStorage.getItem('userInfo'))
     const fileInputRef = useRef(null);
+    const activeFetchCountRef = useRef(0);
+    let controllers = useRef({});
     const [gridData, setGridData] = useState([])
-
 
     const [gridDataSeq, setGridDataSeq] = useState([])
     const [dataForm, setDataFrom] = useState([])
@@ -209,19 +210,12 @@ export default function HomePage({ permissions, isMobile, canCreate, canEdit, ca
                     }));
                     updatedData.push(...batch);
                 }
-                HandleSucces({
-                    success: true,
-                    message: 'Tải dữ liệu thành công',
-                },)
+
                 setGridData(updatedData);
                 setNumRows(updatedData.length);
             } catch (error) {
-                HandleError([
-                    {
-                        success: false,
-                        message: t(error?.message) || 'Đã xảy ra lỗi khi lưu!',
-                    },
-                ]);
+                console.log('error', error)
+
             } finally {
                 togglePageInteraction(false);
             }
@@ -276,7 +270,98 @@ export default function HomePage({ permissions, isMobile, canCreate, canEdit, ca
             togglePageInteraction(false);
         }
     }, [gridData]);
+    const cancelAllRequests = () => {
+        Object.values(controllers.current).forEach(controller => {
+            if (controller && controller.abort) {
+                controller.abort();
+            }
+        });
+        controllers.current = {};
+    };
+    const fetchGenericData = async ({
+        controllerKey,
+        postFunction,
+        searchParams,
+        useEmptyData = true,
+        defaultCols,
+        afterFetch = () => { },
+    }) => {
+        increaseFetchCount();
 
+        if (controllers.current[controllerKey]) {
+            controllers.current[controllerKey].abort();
+            await new Promise((resolve) => setTimeout(resolve, 10));
+            return fetchGenericData({
+                controllerKey,
+                postFunction,
+                searchParams,
+                afterFetch,
+                defaultCols,
+                useEmptyData,
+            });
+        }
+
+        const controller = new AbortController();
+        controllers.current[controllerKey] = controller;
+        const { signal } = controller;
+
+        togglePageInteraction(true);
+        loadingBarRef.current?.continuousStart();
+
+        try {
+            const response = await postFunction(searchParams, signal);
+            const data = response.success ? (response.data || []) : [];
+
+            let mergedData = updateIndexNo(data);
+
+            if (useEmptyData) {
+                const emptyData = updateIndexNo(generateEmptyData(100, defaultCols));
+                mergedData = updateIndexNo([...data, ...emptyData]);
+            }
+
+            await afterFetch(mergedData);
+        } catch (error) {
+            let emptyData = [];
+
+            if (useEmptyData) {
+                emptyData = updateIndexNo(generateEmptyData(100, defaultCols));
+            }
+
+            await afterFetch(emptyData);
+        } finally {
+            decreaseFetchCount();
+            controllers.current[controllerKey] = null;
+        }
+    };
+
+    const increaseFetchCount = () => {
+        activeFetchCountRef.current += 1;
+    };
+
+    const decreaseFetchCount = () => {
+        activeFetchCountRef.current -= 1;
+        if (activeFetchCountRef.current === 0) {
+            loadingBarRef.current?.complete();
+            togglePageInteraction(false);
+        }
+    };
+    useEffect(() => {
+        const searchParams = {
+            KeyItem2: '202505',
+
+        }
+
+        fetchGenericData({
+            controllerKey: 'HrPayrollSysQ',
+            postFunction: HrPayrollSysQ,
+            searchParams,
+            defaultCols: null,
+            useEmptyData: false,
+            afterFetch: (data) => {
+                console.log('data', data)
+            },
+        });
+    }, []);
     return (
         <>
             <Helmet>
