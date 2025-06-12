@@ -43,7 +43,7 @@ import { togglePageInteraction } from '../../utils/togglePageInteraction'
 import { HrPayrollSysA } from '../../../features/sys/payroll/HrPayrollSysA'
 import { HrPayrollSysQ } from '../../../features/sys/payroll/HrPayrollSysQ'
 import { filterValidRows } from '../../utils/filterUorA'
-export default function HomePage({  }) {
+export default function HomePage({ }) {
     const loadingBarRef = useRef(null);
     const userFrom = JSON.parse(localStorage.getItem('userInfo'))
     const fileInputRef = useRef(null);
@@ -345,23 +345,23 @@ export default function HomePage({  }) {
             togglePageInteraction(false);
         }
     };
-    useEffect(() => {
-        const searchParams = {
-            KeyItem2: '202505',
-
-        }
-
-        fetchGenericData({
-            controllerKey: 'HrPayrollSysQ',
-            postFunction: HrPayrollSysQ,
-            searchParams,
-            defaultCols: null,
-            useEmptyData: false,
-            afterFetch: (data) => {
-                console.log('data', data)
-            },
-        });
-    }, []);
+    /*   useEffect(() => {
+          const searchParams = {
+              KeyItem2: '202505',
+  
+          }
+  
+          fetchGenericData({
+              controllerKey: 'HrPayrollSysQ',
+              postFunction: HrPayrollSysQ,
+              searchParams,
+              defaultCols: null,
+              useEmptyData: false,
+              afterFetch: (data) => {
+                  console.log('data', data)
+              },
+          });
+      }, []); */
     return (
         <>
             <Helmet>
@@ -432,11 +432,7 @@ export default function HomePage({  }) {
                                     < HardDriveUpload className="w-4 h-4 " />
                                     <span>UPLOAD DATA BẢNG LƯƠNG </span>
                                 </div>
-                                <div class="p-3 border-b cursor-pointer hover:bg-blue-50 transition flex items-center gap-2 text-sm text-gray-800">
-
-                                    < DatabaseZap className="w-4 h-4 " />
-                                    <span>DỮ LIỆU DATA LƯƠNG</span>
-                                </div>
+                                
 
 
                             </div>

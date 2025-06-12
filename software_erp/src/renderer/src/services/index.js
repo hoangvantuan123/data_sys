@@ -13,5 +13,5 @@ export let HOST_API_SERVER_9
 
 
 
-HOST_API_SERVER_1 = 'http://localhost:8818/api/v1'
-HOST_API_SERVER_2 = 'https://171.238.182.134:9090/hr5/api/v1'
+/* HOST_API_SERVER_1 = 'http://localhost:8818/api/v1' */
+HOST_API_SERVER_1 = 'http://hr.itmv.vn:9090/hr5/api/v1'
